@@ -1,10 +1,10 @@
 //Luigi Acuna
-//CMPS4191 Test 3
+//CMPS4191 Final Project
 //Novemeber 23 2024
 
 // Luigi Acuna
 // CMPS4191 Test 3 Advanced Web Dev
-// October 30 2024
+// December 9 2024
 package main
 
 import (
@@ -13,6 +13,7 @@ import (
 	"flag"
 	"log/slog"
 	"os"
+	"strings"
 	"sync"
 	"time"
 
@@ -40,6 +41,9 @@ type serverConfig struct {
 		username string
 		password string
 		sender   string
+	}
+	cors struct {
+		trustedOrigins []string
 	}
 }
 
@@ -73,6 +77,12 @@ func main() {
 	flag.StringVar(&settings.smtp.username, "smtp-username", "", "SMTP username")
 	flag.StringVar(&settings.smtp.username, "smtp-password", "", "SMTP password")
 	flag.StringVar(&settings.smtp.sender, "smtp-sender", "Book Club <no-reply@bookclub.net>", "SMTP sender")
+
+	flag.Func("cors-trusted-origins", "Trusted CORS origins (space seperated)",
+		func(val string) error {
+			settings.cors.trustedOrigins = strings.Fields(val)
+			return nil
+		})
 
 	flag.Parse()
 

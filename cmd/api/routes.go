@@ -45,5 +45,5 @@ func (a *applicationDependencies) routes() http.Handler {
 	router.HandlerFunc(http.MethodPut, "/v1/users/activated", a.activateUserHandler)                     //activate a user
 	router.HandlerFunc(http.MethodPost, "/v1/tokens/authentication", a.createAuthenticationTokenHandler) //authenticate token
 	router.HandlerFunc(http.MethodPut, "/api/v1/reviews/:id", a.UpdateBookReviewHandler)                 //update a review
-	return a.recoverPanic(a.rateLimit(a.authenticate(router)))
+	return a.recoverPanic(a.enableCORS(a.rateLimit(a.authenticate(router))))
 }
