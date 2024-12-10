@@ -258,3 +258,31 @@ func (u UserModel) GetID(id int64) (bool, int64, error) {
 	// Return true (user exists), user ID, and nil for error
 	return true, userID, nil
 }
+
+// ---------------------------------------------------------------------------------------------------
+func (u *UserModel) UpdatePassword(userID int64, hashedPassword []byte) error {
+	query := `
+        UPDATE users
+        SET password_hash = $1, version = version + 1
+        WHERE id = $2`
+
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	result, err := u.DB.ExecContext(ctx, query, hashedPassword, userID)
+	if err != nil {
+		return err
+	}
+
+	// Check if the update affected any rows
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	if rowsAffected == 0 {
+		return err
+	}
+
+	return nil
+}

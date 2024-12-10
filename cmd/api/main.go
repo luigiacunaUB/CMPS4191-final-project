@@ -72,7 +72,7 @@ func main() {
 	flag.IntVar(&settings.limiter.burst, "limiter-burst", 5, "Rate Limiter maximum burst")
 	flag.BoolVar(&settings.limiter.enabled, "limiter-enabled", true, "Enable rate limiter")
 	//using an application called fake-SMTP, Mailtrap did not work
-	flag.StringVar(&settings.smtp.host, "smtp-host", "192.168.7.123", "SMTP host")
+	flag.StringVar(&settings.smtp.host, "smtp-host", "192.168.103.71", "SMTP host")
 	flag.IntVar(&settings.smtp.port, "smtp-port", 25, "SMTP port")
 	flag.StringVar(&settings.smtp.username, "smtp-username", "", "SMTP username")
 	flag.StringVar(&settings.smtp.username, "smtp-password", "", "SMTP password")

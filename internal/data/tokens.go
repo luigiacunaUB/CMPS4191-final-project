@@ -6,6 +6,7 @@ import (
 	"crypto/sha256"
 	"database/sql"
 	"encoding/base32"
+	"errors"
 	"time"
 
 	"github.com/luigiacunaUB/cmps4191-final-project/internal/validator"
@@ -90,4 +91,25 @@ func (t TokenModel) DeleteAllForUser(scope string, userID int64) error {
 	_, err := t.DB.ExecContext(ctx, query, scope, userID)
 	return err
 
+}
+
+func (t *TokenModel) GetForToken(scope string, hash []byte) (*Token, error) {
+	query := `
+        SELECT hash, user_id, expiry, scope
+        FROM tokens
+        WHERE hash = $1 AND scope = $2`
+
+	var token Token
+
+	// Use QueryRow and Scan to retrieve the token
+	row := t.DB.QueryRow(query, hash, scope)
+	err := row.Scan(&token.Hash, &token.UserID, &token.Expiry, &token.Scope)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, sql.ErrNoRows
+		}
+		return nil, err
+	}
+
+	return &token, nil
 }
