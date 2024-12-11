@@ -10,7 +10,7 @@ run/api:
 	-limiter-rps=2 \
 	-limiter-enabled=false \
 	-db-dsn=$(BOOKSTORE_DB_DSN) \
-	-cors-trusted-origins="http://localhost:8999 http://localhost:9001"
+	-cors-trusted-origins="http://localhost:8999 http://localhost:9001 http://192.168.0.114:9000"
 
 
 #enter database
@@ -35,4 +35,5 @@ db/migrations/up:
 db/migrations/down:
 	@echo 'running down migrations'
 	migrate -path ./migrations -database $(BOOKSTORE_DB_DSN) down
+
 
