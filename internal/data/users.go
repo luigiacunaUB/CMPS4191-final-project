@@ -286,3 +286,5 @@ func (u *UserModel) UpdatePassword(userID int64, hashedPassword []byte) error {
 
 	return nil
 }
+
+
